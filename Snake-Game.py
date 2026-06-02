@@ -4,7 +4,7 @@ import random
 
 screen = turtle.Screen()
 turtle.colormode(255)
-screen.bgcolor((0,0,0))
+screen.bgcolor((53,245,98))
 screen.setup(width=600,height=600)
 screen.title('Snake game made by Diffy02. You should subscribe to his channel')
 screen.tracer(0)
@@ -12,7 +12,7 @@ list_segment = [(0,0)]
 
 score = 0
 title = turtle.Turtle()
-title.color((255,204,51))
+title.color((0,0,0))
 title.pensize(5)
 title.penup()
 title.hideturtle()
@@ -22,10 +22,11 @@ title.write(f'score: {score}',align='center',font=("Verdana", 12, "normal"))
 game_over1 = ['You Failed!','Try again next time...','GAME OVER.']
 
 food = turtle.Turtle()
-food.color((96,151,250))
+food.color('red')
 food.shape('circle')
 food.penup()
 food.goto(0,100)
+yummy = ['red','blue']
 
 position_x = 280
 position_y = 300
@@ -41,7 +42,7 @@ second_segments = []
 
 for segment in list_segment:
     head = turtle.Turtle()
-    head.color((255,255,255))
+    head.color((23,105,42))
     head.shape('square')
     head.penup()
     head.goto(segment)
@@ -98,15 +99,18 @@ def right():
         state2 = True
         state3 = False
 
+second = 0.1
+# timer = time.time()
 
 game = True
 while game:
     screen.update()
-    time.sleep(0.1)
+    time.sleep(second)
     for seg in range(len(second_segments) - 1,0,-1):
         pos_x = second_segments[seg - 1].xcor()
         pos_y = second_segments[seg - 1].ycor()
         second_segments[seg].goto(pos_x,pos_y)
+        second_segments[seg].color((63,139,81))
         second_segments[seg].showturtle()
     second_segments[0].forward(20)
 
@@ -114,6 +118,7 @@ while game:
         food.penup()
         x = random.randint(-14,14)*20
         y = random.randint(-14,14)*20
+        food.color(random.choice(yummy))
         food.goto(x, y)
         title.clear()
         score += 1
@@ -142,10 +147,20 @@ while game:
             title.pendown()
             title.write(f'{random.choice(game_over1)}', align='center', font=('Comic Sans', 30, 'normal'))
 
+    # if time.time() - timer >= 5:
+    #     if second > 0.01:
+    #         second -= 0.01
+    #     timer = time.time
+
     screen.listen()
     screen.onkey(up,'Up')
     screen.onkey(down, 'Down')
     screen.onkey(left,'Left')
     screen.onkey(right,'Right')
+
+    screen.onkey(up, 'w')
+    screen.onkey(down, 's')
+    screen.onkey(left, 'a')
+    screen.onkey(right, 'd')
 
 turtle.done()
